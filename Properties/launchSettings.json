@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "srntr": {
+      "commandName": "Project",
+      "commandLineArgs": "-m bilinear -i c:\\docs\\mcdis\\sr\\simple\\Flower.bmp -s 2"
+    }
+  }
+}
