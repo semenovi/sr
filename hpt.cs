@@ -50,6 +50,13 @@
                 QueryPerformanceCounter(out stopTime);
             }
 
+            // Reset the timer
+            public void Reset()
+            {
+                startTime=0;
+                stopTime=0;
+            }
+
             // Returns the duration of the timer (in seconds)
             public double Duration
             {

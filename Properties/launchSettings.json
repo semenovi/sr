@@ -2,7 +2,7 @@
   "profiles": {
     "srntr": {
       "commandName": "Project",
-      "commandLineArgs": "-m bilinear -i c:\\docs\\mcdis\\sr\\simple\\Flower.bmp -s 2"
+      "commandLineArgs": "-m bilinear -i d:\\docs\\work\\mcdis\\supersampling\\gh\\srntr\\Flower.bmp -s 2"
     }
   }
 }

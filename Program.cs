@@ -3,6 +3,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Reflection.Emit;
 using System.Drawing;
 using Win32;
+using srntr;
 
 var p = new Dictionary<string, string>();
 hpt pt = new hpt();
@@ -18,28 +19,20 @@ p.Add("m", args[1]);
 p.Add("i", args[3]);
 p.Add("s", args[5]);
 
-//Console.WriteLine(p["m"]);
-//Console.WriteLine(p["i"]);
-//Console.WriteLine(p["s"]);
-
 try
 {
-    var imgIn = new Bitmap(p["i"]);
-    
-    int x, y;
 
-    for (x = 0; x < imgIn.Width; x++)
-    {
-        for (y = 0; y < imgIn.Height; y++)
-        {
-            Color pixelColor = imgIn.GetPixel(x, y);
-            Color newColor = Color.FromArgb(pixelColor.R, 0, 0);
-            imgIn.SetPixel(x, y, newColor);
-        }
-    }
-    
-    pt.Stop();
-    Console.WriteLine("[" + pt.Duration + "] Pixel format: " + imgIn.PixelFormat.ToString());
+    var imgIn = new Bitmap(p["i"]);
+    Console.WriteLine("[" + pt.Duration + "] image loaded: " + p["i"]);
+
+    double st = pt.Duration;
+    double en = 0.0;
+    Bitmap b = bilinear.r(imgIn, int.Parse(p["s"]));
+    en = pt.Duration - st;
+    Console.WriteLine("[" + pt.Duration + "] bilinear done in " + en.ToString());
+
+    b.Save(p["i"] + ".bl.bmp", System.Drawing.Imaging.ImageFormat.Bmp);
+    Console.WriteLine("[" + pt.Duration + "] bilinear saved to file");
 }
 catch (ArgumentException)
 {
