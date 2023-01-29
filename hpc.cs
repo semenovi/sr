@@ -14,28 +14,20 @@ namespace sr
 {
     internal class hpc
     {
-        private static DateTime _startTime;
+        private static long _ticksStart = 0;
         private static Stopwatch _stopWatch = null;
-        private static TimeSpan _maxIdle =
-            TimeSpan.FromSeconds(10);
-
-        public static DateTime UtcNow
+        
+        public static long ticks
         {
             get
             {
-                if ((_stopWatch == null) ||
-                    (_startTime.Add(_maxIdle) < DateTime.UtcNow))
-                {
-                    Reset();
-                }
-                return _startTime.AddTicks(_stopWatch.Elapsed.Ticks);
+                return _stopWatch.Elapsed.Ticks - _ticksStart;
             }
         }
-
-        private static void Reset()
+        public static void start()
         {
-            _startTime = DateTime.UtcNow;
             _stopWatch = Stopwatch.StartNew();
+            _ticksStart = _stopWatch.Elapsed.Ticks;
         }
     }
 }

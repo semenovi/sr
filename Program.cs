@@ -5,46 +5,46 @@ using System.Drawing;
 using sr;
 using System;
 
-string mode = ".";
-string method = ".";
-string image = ".";
-string pImage = ".";
-string scale = ".";
+List<string> order = new List<string>(5);
+order.Add("-m");
+order.Add("-e");
+order.Add("-i");
+order.Add("-p");
+order.Add("-s");
 
-if (args.Length < 1 || args[0] != "-m" || args[2] != "-e" || args[4] != "-i")
+List<string> helpArgs = new List<string>(5);
+order.Add("interpolation, index");
+order.Add("nearest, bilinear - for interpolation; psnr, ssim - for index");
+order.Add("path to original image");
+order.Add("interpolation scale");
+order.Add("image for comparison by index");
+
+if (args.Length == 0 || args[0] == "-h" || args[0] == "--help")
 {
-    Console.WriteLine("specify: \n\t-m mode\t\tinterpolation, index\n\t-e method\tnearest, bilinear - for interpolation\n\t\t\tpsnr, ssim - for index\n\t-i image\tpath\n\t-s scale\tonly for interpolation\n\t-primary\toriginal image, only for index");
+    hpc.start();
+    cli.helpConsoleWrite(order, helpArgs);
     return;
 }
 
-if (args[1] == "interpolation" || args[1] == "ntr" || args[1] == "n")
-{
-    mode = "n";
+List<string> arin = new List<string>(args);
+List<string> pArgs = cli.parseArgs(arin, order);
 
-    if (args.Length != 8 || args[0] != "-m" || args[2] != "-e" || args[4] != "-i" || args[6] != "-s")
-    {
-        Console.WriteLine("specify: \n\t-m mode\t\tinterpolation, index\n\t-e method\tnearest, bilinear - for interpolation\n\t\t\tpsnr, ssim - for index\n\t-i image\tpath\n\t-s scale\tonly for interpolation\n\t-primary\toriginal image, only for index");
-        return;
-    }
+string mode = pArgs[0];
+string method = pArgs[1];
+string image = pArgs[2];
+string pImage = pArgs[3];
+string scale = pArgs[4];
 
-    method = args[3];
-    image = args[5];
-    scale = args[7];
-}
-else if (args[1] == "index" || args[1] == "ndx" || args[1] == "i")
-{
-    mode = "i";
+bool interpolationMode = (mode is "interpolation" or "ntr" or "n");
+bool indexMode = (mode is "index" or "ndx" or "i");
 
-    if (args.Length != 8 || args[0] != "-m" || args[2] != "-e" || args[4] != "-i" || args[6] != "-p")
-    {
-        Console.WriteLine("specify: \n\t-m mode\t\tinterpolation, index\n\t-e method\tnearest, bilinear - for interpolation\n\t\t\tpsnr, ssim - for index\n\t-i image\tpath\n\t-s scale\tonly for interpolation\n\t-primary\toriginal image, only for index");
-        return;
-    }
+bool bilinearMethod = (method is "bilinear" or "b");
+bool nearestMethod = (method is "nearest" or "n");
 
-    method = args[3];
-    image = args[5];
-    pImage = args[7];
-}
+bool psnrMethod = (method is "psnr" or "p");
+bool ssimMethod = (method is "ssim" or "s");
+
+hpc.start();
 
 try
 {
@@ -53,38 +53,40 @@ try
 
     if (ext != "bmp")
     {
-        Console.WriteLine("not bmp file");
+        cli.ticksConsoleWrite("not bmp file: " + image);
         return;
     }
 
     var imgIn = new Bitmap(image);
     Bitmap b = new Bitmap(imgIn);
-    Console.WriteLine("[" + hpc.UtcNow.Ticks + "] image loaded: " + image);
+    cli.ticksConsoleWrite("image loaded: " + image);
 
-    long st = hpc.UtcNow.Ticks;
+    long st = 0;
 
     string outfn = ".";
 
     // interpolation
 
-    if (mode == "n")
+    if (interpolationMode)
     {
-        if (method == "bilinear" || method == "b")
+        if (bilinearMethod)
         {
+            st = hpc.ticks;
             b = bilinear.r(imgIn, int.Parse(scale));
         }
-        else if (method == "nearest" || method == "n")
+        else if (nearestMethod)
         {
+            st = hpc.ticks;
             b = nearest.r(imgIn, int.Parse(scale));
         }
         else
         {
-            Console.WriteLine("[" + hpc.UtcNow.Ticks + "] unknown method.");
+            cli.ticksConsoleWrite("unknown method.");
             return;
         }
 
-        long en = hpc.UtcNow.Ticks - st;
-        Console.WriteLine("[" + hpc.UtcNow.Ticks + "] " + method + " scaling for " + scale + "x done in " + en.ToString() + " ticks");
+        long en = hpc.ticks - st;
+        cli.ticksConsoleWrite(method + " scaling for " + scale + "x done in " + en.ToString() + " ticks");
 
         outfn = fn + "-" + method + "-" + scale + "x." + ext;
 
@@ -93,49 +95,51 @@ try
             b.Save(outfn, System.Drawing.Imaging.ImageFormat.Bmp);
         }
 
-        Console.WriteLine("[" + hpc.UtcNow.Ticks + "] " + method + " saved to file " + outfn);
+        cli.ticksConsoleWrite(method + " saved to file " + outfn);
     }
 
     // index
 
-    else if (mode == "i")
+    else if (indexMode)
     {
         double o = 0.0;
 
         var imgPrimary = new Bitmap(pImage);
-        Console.WriteLine("[" + hpc.UtcNow.Ticks + "] image loaded: " + pImage);
-
+        cli.ticksConsoleWrite("image loaded: " + pImage);
 
         if (imgIn.Size != imgPrimary.Size)
         {
-            Console.WriteLine("[" + hpc.UtcNow.Ticks + "] WARNING! different size.");
+            cli.ticksConsoleWrite("WARNING! different size.");
             return;
         }
 
-        if (method == "psnr" || method == "p")
+        if (psnrMethod)
         {
+            st = hpc.ticks;
             o = psnr.r(imgIn, imgPrimary);
         }
-        else if (method == "ssim" || method == "s")
+        else if (ssimMethod)
         {
+            st = hpc.ticks;
             o = ssim.r(imgIn, imgPrimary);
         }
         else
         {
-            Console.WriteLine("[" + hpc.UtcNow.Ticks + "] unknown method.");
+            cli.ticksConsoleWrite("unknown method.");
             return;
         }
 
-        long en = hpc.UtcNow.Ticks - st;
-        Console.WriteLine("[" + hpc.UtcNow.Ticks + "] " + method + " index is " + o + ", done in " + en.ToString() + " ticks");
+        long en = hpc.ticks - st;
+        cli.ticksConsoleWrite(method + " index is " + o + ", done in " + en.ToString() + " ticks");
     }
     else
     {
-        Console.WriteLine("[" + hpc.UtcNow.Ticks + "] unknown mode.");
+        cli.ticksConsoleWrite("unknown mode.");
         return;
     }
 }
 catch (ArgumentException)
 {
-    Console.WriteLine("[" + hpc.UtcNow.Ticks + "] there was an argument error. Check the source code or input file.");
+    hpc.start();
+    cli.ticksConsoleWrite("there was an argument error. Check the source code or input file.");
 }
