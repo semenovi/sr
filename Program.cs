@@ -5,34 +5,54 @@ using System.Drawing;
 using srntr;
 using System;
 
-
-var p = new Dictionary<string, string>();
-
-
 if (args.Length != 6)
 {
     Console.WriteLine("specify -m method, -i image to resize, -s scale");
     return;
 }
-p.Add("m", args[1]);
-p.Add("i", args[3]);
-p.Add("s", args[5]);
+
+string m = args[1];
+string i = args[3];
+string s = args[5];
 
 try
 {
-    var imgIn = new Bitmap(p["i"]);
-    Console.WriteLine("[" + hpc.UtcNow.Ticks + "] image loaded: " + p["i"]);
+    string fn = i.Split(".")[0];
+    string ext = i.Split(".")[1];
 
-    long st = hpc.UtcNow.Ticks;
-    Bitmap b = bilinear.r(imgIn, int.Parse(p["s"]));
-    long en = hpc.UtcNow.Ticks - st;
+    if (ext != "bmp")
+    {
+        Console.WriteLine("not bmp file");
+        return;
+    }
 
-    Console.WriteLine("[" + hpc.UtcNow.Ticks + "] bilinear scaling for " + p["s"] + "x done in " + en.ToString() + " ticks");
+    var imgIn = new Bitmap(i);
+    Bitmap b = new Bitmap(imgIn);
+    Console.WriteLine("[" + hpc.UtcNow.Ticks + "] image loaded: " + i);
+
+    if (m == "bilinear" || m == "b")
+    {
+        long st = hpc.UtcNow.Ticks;
+        b = bilinear.r(imgIn, int.Parse(s));
+        long en = hpc.UtcNow.Ticks - st;
+        Console.WriteLine("[" + hpc.UtcNow.Ticks + "] bilinear scaling for " + s + "x done in " + en.ToString() + " ticks");
+    }
+    else
+    {
+        Console.WriteLine("unknown method.");
+        return;
+    }
+
+    string outfn = fn + "-" + m + "-" + s + "x." + ext;
+
+    if (ext == "bmp")
+    {
+        b.Save(outfn, System.Drawing.Imaging.ImageFormat.Bmp);
+    }
     
-    b.Save(p["i"] + ".bl.bmp", System.Drawing.Imaging.ImageFormat.Bmp);
-    Console.WriteLine("[" + hpc.UtcNow.Ticks + "] bilinear saved to file");
+    Console.WriteLine("[" + hpc.UtcNow.Ticks + "] bilinear saved to file " + outfn);
 }
 catch (ArgumentException)
 {
-    Console.WriteLine("[" + hpc.UtcNow.Ticks + "] There was an error. Check the path to the image file.");
+    Console.WriteLine("[" + hpc.UtcNow.Ticks + "] there was an argument error. Check the source code or input file.");
 }
