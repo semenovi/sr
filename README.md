@@ -7,3 +7,4 @@ Usage:
                     psnr, ssim - for index
     -i image        path
     -s scale        only for interpolation
+    -p primary      origin image, only for index
