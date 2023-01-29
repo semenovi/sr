@@ -1,10 +1,8 @@
 # sr
 Usage:
 
-    sr.exe
-    -m mode         interpolation, index
-    -e method       nearest, bilinear - for interpolation
-                    psnr, ssim - for index
-    -i image        path
-    -s scale        only for interpolation
-    -p primary      origin image, only for index
+        -m interpolation, index
+        -e nearest, bilinear - for interpolation; psnr, ssim - for index
+        -i path to original image
+        -p interpolation scale
+        -s image for comparison by index
