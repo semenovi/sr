@@ -1,3 +1,3 @@
-# srntr
+# sr
 Usage:
-srntr.exe -m bilinear -i image.bmp -scale 3
+sr.exe -method bilinear -image image.bmp -scale 3

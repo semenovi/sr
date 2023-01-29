@@ -2,23 +2,52 @@
 using static System.Net.Mime.MediaTypeNames;
 using System.Reflection.Emit;
 using System.Drawing;
-using srntr;
+using sr;
 using System;
 
-if (args.Length != 6)
+string mode = ".";
+string method = ".";
+string image = ".";
+string scale = ".";
+
+if (args.Length < 1 || args[0] != "-m" || args[2] != "-e" || args[4] != "-i")
 {
-    Console.WriteLine("specify -m method, -i image to resize, -s scale");
+    Console.WriteLine("specify: \n\t-m mode\t\tinterpolation, index\n\t-e method\tnearest, bilinear - for interpolation\n\t\t\tpsnr, ssim - for index\n\t-i image\tpath\n\t-s scale\tonly for interpolation");
     return;
 }
 
-string m = args[1];
-string i = args[3];
-string s = args[5];
+if (args[1] == "interpolation" || args[1] == "ntr" || args[1] == "n")
+{
+    mode = "n";
+
+    if (args.Length != 8 || args[0] != "-m" || args[2] != "-e" || args[4] != "-i" || args[6] != "-s")
+    {
+        Console.WriteLine("specify: \n\t-m mode\t\tinterpolation, index\n\t-e method\tnearest, bilinear - for interpolation\n\t\t\tpsnr, ssim - for index\n\t-i image\tpath\n\t-s scale\tonly for interpolation");
+        return;
+    }
+
+    method = args[3];
+    image = args[5];
+    scale = args[7];
+}
+else if (args[1] == "index" || args[1] == "ndx" || args[1] == "i")
+{
+    mode = "i";
+
+    if (args.Length != 6 || args[0] != "-m" || args[2] != "-e" || args[4] != "-i")
+    {
+        Console.WriteLine("specify: \n\t-m mode\t\tinterpolation, index\n\t-e method\tnearest, bilinear - for interpolation\n\t\t\tpsnr, ssim - for index\n\t-i image\tpath\n\t-s scale\tonly for interpolation");
+        return;
+    }
+
+    method = args[3];
+    image = args[5];
+}
 
 try
 {
-    string fn = i.Split(".")[0];
-    string ext = i.Split(".")[1];
+    string fn = image.Split(".")[0];
+    string ext = image.Split(".")[1];
 
     if (ext != "bmp")
     {
@@ -26,37 +55,73 @@ try
         return;
     }
 
-    var imgIn = new Bitmap(i);
+    var imgIn = new Bitmap(image);
     Bitmap b = new Bitmap(imgIn);
-    Console.WriteLine("[" + hpc.UtcNow.Ticks + "] image loaded: " + i);
+    Console.WriteLine("[" + hpc.UtcNow.Ticks + "] image loaded: " + image);
 
     long st = hpc.UtcNow.Ticks;
 
-    if (m == "bilinear" || m == "b")
+    string outfn = ".";
+
+    // interpolation
+
+    if (mode == "n")
     {
-        b = bilinear.r(imgIn, int.Parse(s));
+        if (method == "bilinear" || method == "b")
+        {
+            b = bilinear.r(imgIn, int.Parse(scale));
+        }
+        else if (method == "nearest" || method == "n")
+        {
+            b = nearest.r(imgIn, int.Parse(scale));
+        }
+        else
+        {
+            Console.WriteLine("unknown method.");
+            return;
+        }
+
+        long en = hpc.UtcNow.Ticks - st;
+        Console.WriteLine("[" + hpc.UtcNow.Ticks + "] " + method + " scaling for " + scale + "x done in " + en.ToString() + " ticks");
+
+        outfn = fn + "-" + method + "-" + scale + "x." + ext;
+
+        if (ext == "bmp")
+        {
+            b.Save(outfn, System.Drawing.Imaging.ImageFormat.Bmp);
+        }
+
+        Console.WriteLine("[" + hpc.UtcNow.Ticks + "] " + method + " saved to file " + outfn);
     }
-    else if (m == "nearest" || m == "n")
+
+    // index
+
+    else if (mode == "i")
     {
-        b = nearest.r(imgIn, int.Parse(s));
+        double o = 0.0;
+
+        if (method == "psnr" || method == "p")
+        {
+            o = psnr.r(imgIn);
+        }
+        else if (method == "ssim" || method == "s")
+        {
+            o = ssim.r(imgIn);
+        }
+        else
+        {
+            Console.WriteLine("unknown method.");
+            return;
+        }
+
+        long en = hpc.UtcNow.Ticks - st;
+        Console.WriteLine("[" + hpc.UtcNow.Ticks + "] " + method + " index is " + o + ", done in " + en.ToString() + " ticks");
     }
     else
     {
-        Console.WriteLine("unknown method.");
+        Console.WriteLine("unknown mode.");
         return;
     }
-
-    long en = hpc.UtcNow.Ticks - st;
-    Console.WriteLine("[" + hpc.UtcNow.Ticks + "] " + m + " scaling for " + s + "x done in " + en.ToString() + " ticks");
-
-    string outfn = fn + "-" + m + "-" + s + "x." + ext;
-
-    if (ext == "bmp")
-    {
-        b.Save(outfn, System.Drawing.Imaging.ImageFormat.Bmp);
-    }
-    
-    Console.WriteLine("[" + hpc.UtcNow.Ticks + "] " + m + " saved to file " + outfn);
 }
 catch (ArgumentException)
 {

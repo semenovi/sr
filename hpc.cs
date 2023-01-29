@@ -10,7 +10,7 @@ using System.Threading;
 using System.Diagnostics;
 
 
-namespace srntr
+namespace sr
 {
     internal class hpc
     {

@@ -1,8 +1,8 @@
 {
   "profiles": {
-    "srntr": {
+    "sr": {
       "commandName": "Project",
-      "commandLineArgs": "-m bilinear -i Flower.bmp -s 20"
+      "commandLineArgs": "-m index -e psnr -i Flower1-100.bmp"
     }
   }
 }
