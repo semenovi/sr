@@ -23,19 +23,26 @@ try
 {
 
     var imgIn = new Bitmap(p["i"]);
+    pt.Stop();
     Console.WriteLine("[" + pt.Duration + "] image loaded: " + p["i"]);
+    pt.Start();
 
     double st = pt.Duration;
     double en = 0.0;
     Bitmap b = bilinear.r(imgIn, int.Parse(p["s"]));
     en = pt.Duration - st;
+    pt.Stop();
     Console.WriteLine("[" + pt.Duration + "] bilinear done in " + en.ToString());
+    pt.Start();
 
     b.Save(p["i"] + ".bl.bmp", System.Drawing.Imaging.ImageFormat.Bmp);
+    pt.Stop();
     Console.WriteLine("[" + pt.Duration + "] bilinear saved to file");
+    pt.Start();
 }
 catch (ArgumentException)
 {
     pt.Stop();
     Console.WriteLine("[" + pt.Duration + "] There was an error. Check the path to the image file.");
 }
+pt.Stop();
