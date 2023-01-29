@@ -2,12 +2,11 @@
 using static System.Net.Mime.MediaTypeNames;
 using System.Reflection.Emit;
 using System.Drawing;
-using Win32;
 using srntr;
+using System;
+
 
 var p = new Dictionary<string, string>();
-hpt pt = new hpt();
-pt.Start();
 
 
 if (args.Length != 6)
@@ -21,28 +20,19 @@ p.Add("s", args[5]);
 
 try
 {
-
     var imgIn = new Bitmap(p["i"]);
-    pt.Stop();
-    Console.WriteLine("[" + pt.Duration + "] image loaded: " + p["i"]);
-    pt.Start();
+    Console.WriteLine("[" + hpc.UtcNow.Ticks + "] image loaded: " + p["i"]);
 
-    double st = pt.Duration;
-    double en = 0.0;
+    long st = hpc.UtcNow.Ticks;
     Bitmap b = bilinear.r(imgIn, int.Parse(p["s"]));
-    en = pt.Duration - st;
-    pt.Stop();
-    Console.WriteLine("[" + pt.Duration + "] bilinear done in " + en.ToString());
-    pt.Start();
+    long en = hpc.UtcNow.Ticks - st;
 
+    Console.WriteLine("[" + hpc.UtcNow.Ticks + "] bilinear scaling for " + p["s"] + "x done in " + en.ToString() + " ticks");
+    
     b.Save(p["i"] + ".bl.bmp", System.Drawing.Imaging.ImageFormat.Bmp);
-    pt.Stop();
-    Console.WriteLine("[" + pt.Duration + "] bilinear saved to file");
-    pt.Start();
+    Console.WriteLine("[" + hpc.UtcNow.Ticks + "] bilinear saved to file");
 }
 catch (ArgumentException)
 {
-    pt.Stop();
-    Console.WriteLine("[" + pt.Duration + "] There was an error. Check the path to the image file.");
+    Console.WriteLine("[" + hpc.UtcNow.Ticks + "] There was an error. Check the path to the image file.");
 }
-pt.Stop();

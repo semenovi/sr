@@ -17,8 +17,8 @@
             Bitmap bTemp = (Bitmap)input.Clone();
             Bitmap output = new Bitmap(bTemp.Width * c, bTemp.Height * c, bTemp.PixelFormat);
 
-			double nXFactor = (Double)c;
-			double nYFactor = (Double)c;
+			double nXFactor = (Double)1 / (Double)c;
+			double nYFactor = (Double)1 / (Double)c;
 
 			double fraction_x, fraction_y, one_minus_x, one_minus_y;
 			int ceil_x, ceil_y, floor_x, floor_y;
@@ -30,8 +30,8 @@
 
 			byte b1, b2;
 
-			for (int x = 0; x < input.Width; ++x)
-				for (int y = 0; y < input.Height; ++y)
+			for (int x = 0; x < output.Width; ++x)
+				for (int y = 0; y < output.Height; ++y)
 				{
 					// Setup
 
@@ -74,9 +74,6 @@
 
 					output.SetPixel(x, y, System.Drawing.Color.FromArgb(255, red, green, blue));
 				}
-
-
-			Console.WriteLine(output.ToString());
 
 			return output;
         }
