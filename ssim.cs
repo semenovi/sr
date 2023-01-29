@@ -9,7 +9,7 @@
 
     internal class ssim
     {
-        public static double r(Bitmap input)
+        public static double r(Bitmap input, Bitmap primary)
         {
 
             return 0.0;

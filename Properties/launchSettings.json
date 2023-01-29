@@ -2,7 +2,7 @@
   "profiles": {
     "sr": {
       "commandName": "Project",
-      "commandLineArgs": "-m index -e psnr -i Flower1-100.bmp"
+      "commandLineArgs": "-m i -e psnr -i Flower-scaled.bmp -p Flower-origin.bmp"
     }
   }
 }

@@ -8,11 +8,12 @@ using System;
 string mode = ".";
 string method = ".";
 string image = ".";
+string pImage = ".";
 string scale = ".";
 
 if (args.Length < 1 || args[0] != "-m" || args[2] != "-e" || args[4] != "-i")
 {
-    Console.WriteLine("specify: \n\t-m mode\t\tinterpolation, index\n\t-e method\tnearest, bilinear - for interpolation\n\t\t\tpsnr, ssim - for index\n\t-i image\tpath\n\t-s scale\tonly for interpolation");
+    Console.WriteLine("specify: \n\t-m mode\t\tinterpolation, index\n\t-e method\tnearest, bilinear - for interpolation\n\t\t\tpsnr, ssim - for index\n\t-i image\tpath\n\t-s scale\tonly for interpolation\n\t-primary\toriginal image, only for index");
     return;
 }
 
@@ -22,7 +23,7 @@ if (args[1] == "interpolation" || args[1] == "ntr" || args[1] == "n")
 
     if (args.Length != 8 || args[0] != "-m" || args[2] != "-e" || args[4] != "-i" || args[6] != "-s")
     {
-        Console.WriteLine("specify: \n\t-m mode\t\tinterpolation, index\n\t-e method\tnearest, bilinear - for interpolation\n\t\t\tpsnr, ssim - for index\n\t-i image\tpath\n\t-s scale\tonly for interpolation");
+        Console.WriteLine("specify: \n\t-m mode\t\tinterpolation, index\n\t-e method\tnearest, bilinear - for interpolation\n\t\t\tpsnr, ssim - for index\n\t-i image\tpath\n\t-s scale\tonly for interpolation\n\t-primary\toriginal image, only for index");
         return;
     }
 
@@ -34,14 +35,15 @@ else if (args[1] == "index" || args[1] == "ndx" || args[1] == "i")
 {
     mode = "i";
 
-    if (args.Length != 6 || args[0] != "-m" || args[2] != "-e" || args[4] != "-i")
+    if (args.Length != 8 || args[0] != "-m" || args[2] != "-e" || args[4] != "-i" || args[6] != "-p")
     {
-        Console.WriteLine("specify: \n\t-m mode\t\tinterpolation, index\n\t-e method\tnearest, bilinear - for interpolation\n\t\t\tpsnr, ssim - for index\n\t-i image\tpath\n\t-s scale\tonly for interpolation");
+        Console.WriteLine("specify: \n\t-m mode\t\tinterpolation, index\n\t-e method\tnearest, bilinear - for interpolation\n\t\t\tpsnr, ssim - for index\n\t-i image\tpath\n\t-s scale\tonly for interpolation\n\t-primary\toriginal image, only for index");
         return;
     }
 
     method = args[3];
     image = args[5];
+    pImage = args[7];
 }
 
 try
@@ -77,7 +79,7 @@ try
         }
         else
         {
-            Console.WriteLine("unknown method.");
+            Console.WriteLine("[" + hpc.UtcNow.Ticks + "] unknown method.");
             return;
         }
 
@@ -100,17 +102,27 @@ try
     {
         double o = 0.0;
 
+        var imgPrimary = new Bitmap(pImage);
+        Console.WriteLine("[" + hpc.UtcNow.Ticks + "] image loaded: " + pImage);
+
+
+        if (imgIn.Size != imgPrimary.Size)
+        {
+            Console.WriteLine("[" + hpc.UtcNow.Ticks + "] WARNING! different size.");
+            return;
+        }
+
         if (method == "psnr" || method == "p")
         {
-            o = psnr.r(imgIn);
+            o = psnr.r(imgIn, imgPrimary);
         }
         else if (method == "ssim" || method == "s")
         {
-            o = ssim.r(imgIn);
+            o = ssim.r(imgIn, imgPrimary);
         }
         else
         {
-            Console.WriteLine("unknown method.");
+            Console.WriteLine("[" + hpc.UtcNow.Ticks + "] unknown method.");
             return;
         }
 
@@ -119,7 +131,7 @@ try
     }
     else
     {
-        Console.WriteLine("unknown mode.");
+        Console.WriteLine("[" + hpc.UtcNow.Ticks + "] unknown mode.");
         return;
     }
 }
