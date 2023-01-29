@@ -30,18 +30,24 @@ try
     Bitmap b = new Bitmap(imgIn);
     Console.WriteLine("[" + hpc.UtcNow.Ticks + "] image loaded: " + i);
 
+    long st = hpc.UtcNow.Ticks;
+
     if (m == "bilinear" || m == "b")
     {
-        long st = hpc.UtcNow.Ticks;
         b = bilinear.r(imgIn, int.Parse(s));
-        long en = hpc.UtcNow.Ticks - st;
-        Console.WriteLine("[" + hpc.UtcNow.Ticks + "] bilinear scaling for " + s + "x done in " + en.ToString() + " ticks");
+    }
+    else if (m == "nearest" || m == "n")
+    {
+        b = nearest.r(imgIn, int.Parse(s));
     }
     else
     {
         Console.WriteLine("unknown method.");
         return;
     }
+
+    long en = hpc.UtcNow.Ticks - st;
+    Console.WriteLine("[" + hpc.UtcNow.Ticks + "] " + m + " scaling for " + s + "x done in " + en.ToString() + " ticks");
 
     string outfn = fn + "-" + m + "-" + s + "x." + ext;
 
@@ -50,7 +56,7 @@ try
         b.Save(outfn, System.Drawing.Imaging.ImageFormat.Bmp);
     }
     
-    Console.WriteLine("[" + hpc.UtcNow.Ticks + "] bilinear saved to file " + outfn);
+    Console.WriteLine("[" + hpc.UtcNow.Ticks + "] " + m + " saved to file " + outfn);
 }
 catch (ArgumentException)
 {
