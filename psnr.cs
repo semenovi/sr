@@ -9,28 +9,11 @@
 
     internal class psnr
     {
-        private static double min(double a, double b)
-        {
-            if (a > b)
-                return b;
-            return a;
-        }
-        private static void hsi(double r, double g, double b, ref double hue, ref double saturation, ref double intensity)
-        {
-            intensity = (r + g + b) / 3;
-            saturation = 1 - (3 * (min(r, min(g, b))) / (r + g + b));
-            if (saturation == 0)
-            {
-                return;
-            }
-            hue = Math.Acos(0.5 * ((r - g) + (r - b)) / Math.Sqrt(((r - g) * (r - g)) + ((r - b) * (g - b))));
-            if (b > g)
-            {
-                hue = ((360 * Math.PI) / 180.0) - hue;
-            }
-        }
         public static double r(Bitmap input, Bitmap primary)
         {
+            int wd = input.Width;
+            int ht = input.Height;
+
             double output = 0.0;
 
             double hsiMetric = 0.0;
@@ -50,12 +33,12 @@
 
             double numerator = 0.0;
 
-            for (int x = 0; x < input.Width; ++x)
+            for (int x = 0; x < wd; ++x)
             {
-                for (int y = 0; y < input.Height; ++y)
+                for (int y = 0; y < ht; ++y)
                 {
-                    hsi(input.GetPixel(x, y).R, input.GetPixel(x, y).G, input.GetPixel(x, y).B, ref h1, ref s1, ref i1);
-                    hsi(primary.GetPixel(x, y).R, primary.GetPixel(x, y).G, primary.GetPixel(x, y).B, ref h2, ref s2, ref i2);
+                    util.hsi(input.GetPixel(x, y).R, input.GetPixel(x, y).G, input.GetPixel(x, y).B, ref h1, ref s1, ref i1);
+                    util.hsi(primary.GetPixel(x, y).R, primary.GetPixel(x, y).G, primary.GetPixel(x, y).B, ref h2, ref s2, ref i2);
                     di = Math.Abs(i1 - i2);
                     t = Math.Abs(h1 - h2);
                     if (Math.Abs(h1 - h2) >= Math.PI)
