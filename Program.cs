@@ -13,11 +13,11 @@ order.Add("-p");
 order.Add("-s");
 
 List<string> helpArgs = new List<string>(5);
-order.Add("interpolation, index");
-order.Add("nearest, bilinear - for interpolation; psnr, ssim - for index");
-order.Add("path to original image");
-order.Add("interpolation scale");
-order.Add("image for comparison by index");
+helpArgs.Add("interpolation, index");
+helpArgs.Add("nearest, bilinear - for interpolation; psnr, ssim - for index");
+helpArgs.Add("path to original image");
+helpArgs.Add("interpolation scale");
+helpArgs.Add("image for comparison by index");
 
 if (args.Length == 0 || args[0] == "-h" || args[0] == "--help")
 {
