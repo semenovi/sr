@@ -99,10 +99,12 @@
 
             if (input.PixelFormat == System.Drawing.Imaging.PixelFormat.Format24bppRgb)
             {
+                cli.ticksConsoleWrite("WARNING! using images with this depth is unwanted, please use 8 bit");
                 l = Math.Pow(2, 24) - 1;
             }
             else if (input.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppRgb)
             {
+                cli.ticksConsoleWrite("WARNING! using images with this depth is unwanted, please use 8 bit");
                 l = Math.Pow(2, 32) - 1;
             }
             else if (input.PixelFormat == System.Drawing.Imaging.PixelFormat.Format8bppIndexed)

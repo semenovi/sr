@@ -35,14 +35,11 @@ try
     string fn = image.Split(".")[0];
     string ext = image.Split(".")[1];
 
-    if (ext != "bmp")
-    {
-        cli.ticksConsoleWrite("not bmp file: " + image);
-        return;
-    }
-
-    var imgIn = new Bitmap(image);
+    // shit
+    Image img = Image.FromFile(image);
+    Bitmap imgIn = new Bitmap(img);
     Bitmap b = new Bitmap(imgIn);
+
     cli.ticksConsoleWrite("image loaded: " + image);
 
     long st = 0;
@@ -74,6 +71,10 @@ try
     if (ext == "bmp")
     {
         b.Save(outfn, System.Drawing.Imaging.ImageFormat.Bmp);
+    }
+    else if (ext == "png")
+    {
+        b.Save(outfn, System.Drawing.Imaging.ImageFormat.Png);
     }
 
     cli.ticksConsoleWrite(method + " saved to file " + outfn);

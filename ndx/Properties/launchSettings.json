@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "ndx": {
+      "commandName": "Project",
+      "commandLineArgs": "-m ssim -i ds\\GTmod12\\baboon.png -c ds\\LRbicx2\\baboon-nearest-2x.png",
+      "workingDirectory": "D:\\docs\\work\\mcdis\\sr\\gh\\sr"
+    }
+  }
+}

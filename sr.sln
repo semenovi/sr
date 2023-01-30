@@ -3,11 +3,85 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "int", "int/int.csproj", "{6AEF5C6F-742F-48E1-B643-BD1CFF128480}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "int", "int\int.csproj", "{6AEF5C6F-742F-48E1-B643-BD1CFF128480}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ndx", "ndx/ndx.csproj", "{9332F07B-A540-4318-81F8-439CADF07B4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ndx", "ndx\ndx.csproj", "{9332F07B-A540-4318-81F8-439CADF07B4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "util", "util/util.csproj", "{EDF6538A-26B8-4AB2-9EF7-98673E552638}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "util", "util\util.csproj", "{EDF6538A-26B8-4AB2-9EF7-98673E552638}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ds", "ds", "{5E71FB4A-DB87-46CC-9E65-D52DBD1E449A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GTmod12", "GTmod12", "{FB04AE58-B621-4962-9DB1-E0CD558827D1}"
+	ProjectSection(SolutionItems) = preProject
+		ds\GTmod12\baboon.png = ds\GTmod12\baboon.png
+		ds\GTmod12\barbara.png = ds\GTmod12\barbara.png
+		ds\GTmod12\bridge.png = ds\GTmod12\bridge.png
+		ds\GTmod12\coastguard.png = ds\GTmod12\coastguard.png
+		ds\GTmod12\comic.png = ds\GTmod12\comic.png
+		ds\GTmod12\face.png = ds\GTmod12\face.png
+		ds\GTmod12\flowers.png = ds\GTmod12\flowers.png
+		ds\GTmod12\foreman.png = ds\GTmod12\foreman.png
+		ds\GTmod12\lenna.png = ds\GTmod12\lenna.png
+		ds\GTmod12\man.png = ds\GTmod12\man.png
+		ds\GTmod12\monarch.png = ds\GTmod12\monarch.png
+		ds\GTmod12\pepper.png = ds\GTmod12\pepper.png
+		ds\GTmod12\ppt3.png = ds\GTmod12\ppt3.png
+		ds\GTmod12\zebra.png = ds\GTmod12\zebra.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LRbicx2", "LRbicx2", "{CB73D7FA-A586-445C-9A66-D772457EE6F9}"
+	ProjectSection(SolutionItems) = preProject
+		ds\LRbicx2\baboon.png = ds\LRbicx2\baboon.png
+		ds\LRbicx2\barbara.png = ds\LRbicx2\barbara.png
+		ds\LRbicx2\bridge.png = ds\LRbicx2\bridge.png
+		ds\LRbicx2\coastguard.png = ds\LRbicx2\coastguard.png
+		ds\LRbicx2\comic.png = ds\LRbicx2\comic.png
+		ds\LRbicx2\face.png = ds\LRbicx2\face.png
+		ds\LRbicx2\flowers.png = ds\LRbicx2\flowers.png
+		ds\LRbicx2\foreman.png = ds\LRbicx2\foreman.png
+		ds\LRbicx2\lenna.png = ds\LRbicx2\lenna.png
+		ds\LRbicx2\man.png = ds\LRbicx2\man.png
+		ds\LRbicx2\monarch.png = ds\LRbicx2\monarch.png
+		ds\LRbicx2\pepper.png = ds\LRbicx2\pepper.png
+		ds\LRbicx2\ppt3.png = ds\LRbicx2\ppt3.png
+		ds\LRbicx2\zebra.png = ds\LRbicx2\zebra.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LRbicx3", "LRbicx3", "{82CECDEE-6BB2-4934-BED2-8F8D545A6A50}"
+	ProjectSection(SolutionItems) = preProject
+		ds\LRbicx3\baboon.png = ds\LRbicx3\baboon.png
+		ds\LRbicx3\barbara.png = ds\LRbicx3\barbara.png
+		ds\LRbicx3\bridge.png = ds\LRbicx3\bridge.png
+		ds\LRbicx3\coastguard.png = ds\LRbicx3\coastguard.png
+		ds\LRbicx3\comic.png = ds\LRbicx3\comic.png
+		ds\LRbicx3\face.png = ds\LRbicx3\face.png
+		ds\LRbicx3\flowers.png = ds\LRbicx3\flowers.png
+		ds\LRbicx3\foreman.png = ds\LRbicx3\foreman.png
+		ds\LRbicx3\lenna.png = ds\LRbicx3\lenna.png
+		ds\LRbicx3\man.png = ds\LRbicx3\man.png
+		ds\LRbicx3\monarch.png = ds\LRbicx3\monarch.png
+		ds\LRbicx3\pepper.png = ds\LRbicx3\pepper.png
+		ds\LRbicx3\ppt3.png = ds\LRbicx3\ppt3.png
+		ds\LRbicx3\zebra.png = ds\LRbicx3\zebra.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LRbicx4", "LRbicx4", "{33EB7C57-77D6-41E8-A6B0-12F32EFB3CB1}"
+	ProjectSection(SolutionItems) = preProject
+		ds\LRbicx4\baboon.png = ds\LRbicx4\baboon.png
+		ds\LRbicx4\barbara.png = ds\LRbicx4\barbara.png
+		ds\LRbicx4\bridge.png = ds\LRbicx4\bridge.png
+		ds\LRbicx4\coastguard.png = ds\LRbicx4\coastguard.png
+		ds\LRbicx4\comic.png = ds\LRbicx4\comic.png
+		ds\LRbicx4\face.png = ds\LRbicx4\face.png
+		ds\LRbicx4\flowers.png = ds\LRbicx4\flowers.png
+		ds\LRbicx4\foreman.png = ds\LRbicx4\foreman.png
+		ds\LRbicx4\lenna.png = ds\LRbicx4\lenna.png
+		ds\LRbicx4\man.png = ds\LRbicx4\man.png
+		ds\LRbicx4\monarch.png = ds\LRbicx4\monarch.png
+		ds\LRbicx4\pepper.png = ds\LRbicx4\pepper.png
+		ds\LRbicx4\ppt3.png = ds\LRbicx4\ppt3.png
+		ds\LRbicx4\zebra.png = ds\LRbicx4\zebra.png
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +118,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FB04AE58-B621-4962-9DB1-E0CD558827D1} = {5E71FB4A-DB87-46CC-9E65-D52DBD1E449A}
+		{CB73D7FA-A586-445C-9A66-D772457EE6F9} = {5E71FB4A-DB87-46CC-9E65-D52DBD1E449A}
+		{82CECDEE-6BB2-4934-BED2-8F8D545A6A50} = {5E71FB4A-DB87-46CC-9E65-D52DBD1E449A}
+		{33EB7C57-77D6-41E8-A6B0-12F32EFB3CB1} = {5E71FB4A-DB87-46CC-9E65-D52DBD1E449A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1593909C-1232-4EA1-9C62-F126E9768F0C}

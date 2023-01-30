@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "int": {
+      "commandName": "Project",
+      "commandLineArgs": "-m nearest -i ds/LRbicx2/baboon.png -s 2",
+      "workingDirectory": "D:\\docs\\work\\mcdis\\sr\\gh\\sr"
+    }
+  }
+}
