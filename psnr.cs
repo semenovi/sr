@@ -59,6 +59,10 @@
             {
                 numerator = 3 * Math.Pow(Math.Pow(2, 32), 2);
             }
+            else if (input.PixelFormat == System.Drawing.Imaging.PixelFormat.Format8bppIndexed)
+            {
+                numerator = 3 * Math.Pow(Math.Pow(2, 8), 2);
+            }
 
             output = numerator / output;
 

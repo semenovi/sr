@@ -1,7 +1,8 @@
 {
   "profiles": {
     "sr": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "-m index -e ssim -i black8.bmp -p white8.bmp"
     }
   }
 }

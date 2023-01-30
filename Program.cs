@@ -16,8 +16,8 @@ List<string> helpArgs = new List<string>(5);
 helpArgs.Add("interpolation, index");
 helpArgs.Add("nearest, bilinear - for interpolation; psnr, ssim - for index");
 helpArgs.Add("path to original image");
-helpArgs.Add("interpolation scale");
 helpArgs.Add("image for comparison by index");
+helpArgs.Add("interpolation scale");
 
 if (args.Length == 0 || args[0] == "-h" || args[0] == "--help")
 {
@@ -130,7 +130,7 @@ try
         }
 
         long en = hpc.ticks - st;
-        cli.ticksConsoleWrite(method + " index is " + o + ", done in " + en.ToString() + " ticks");
+        cli.ticksConsoleWrite(String.Format("{0} index is {1:0.0000000000000000}, done in {2} ticks", method, o, en));
     }
     else
     {
